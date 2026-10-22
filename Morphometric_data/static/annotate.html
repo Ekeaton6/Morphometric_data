@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Annotate</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="annotate">
+<header class="top">
+  <a href="/" id="back">← All images</a>
+  <h1 id="title">…</h1>
+  <span id="statusBadge"></span>
+  <span class="spacer"></span>
+  <span id="saveState" class="savestate" style="color:#cdd3da"></span>
+  <label>Initials <input id="user" type="text" maxlength="6" placeholder="ABC"></label>
+  <button id="prevBtn" title="Previous image in the list (Alt+←)">← Previous</button>
+  <button id="nextPlainBtn" title="Next image in the list (Alt+→)">Next →</button>
+  <button id="nextBtn" title="Next image in this group that is not yet annotated">Next unannotated →</button>
+</header>
+<div id="presenceBar" class="presencebar" style="display:none"></div>
+
+<div class="tabs">
+  <button data-tab="1" class="on">1 · Color chart, ruler &amp; fish box</button>
+  <button data-tab="2">2 · Morphometric landmarks</button>
+  <span class="tabinfo" id="tabinfo"></span>
+</div>
+
+<div class="main">
+  <!-- ============ TAB 1 ============ -->
+  <div class="stage" id="stage1">
+    <div class="canvas-wrap">
+      <canvas id="cv1"></canvas>
+      <div class="prompt" id="prompt1" style="display:none"></div>
+      <div class="hint">Scroll = zoom · drag background = pan · drag markers to adjust · Esc = cancel placement</div>
+      <div class="zoombtns"><button data-z1="in">+</button><button data-z1="out">−</button><button data-z1="fit">Fit</button></div>
+    </div>
+  </div>
+
+  <!-- ============ TAB 2 ============ -->
+  <div class="stage" id="stage2" style="display:none">
+    <div class="split">
+      <div class="canvas-wrap">
+        <canvas id="cv2"></canvas>
+        <div class="prompt" id="prompt2" style="display:none"></div>
+        <div class="hint">Drag points · scroll = zoom · Tab / Shift+Tab = next / previous point · arrow keys = nudge (Shift = ×10) · X = mark absent · F = fit</div>
+        <div class="zoombtns"><button data-z2="in">+</button><button data-z2="out">−</button><button data-z2="fit">Fit</button><button data-z2="sel">Zoom to point</button></div>
+      </div>
+      <div class="refpanel">
+        <div class="refimg"><canvas id="refcv"></canvas></div>
+        <div class="refzoom"><canvas id="refzoom"></canvas></div>
+        <div class="reftext" id="reftext"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ SIDE PANEL ============ -->
+  <div class="side">
+    <div id="side1">
+      <section>
+        <div class="row-flex">
+          <button id="redetect" title="Re-run automatic detection and replace chart, ruler and fish box">Re-run auto-detect</button>
+          <span id="detectState" class="muted" style="font-size:12px"></span>
+        </div>
+      </section>
+      <section>
+        <h3>Color chart</h3>
+        <div class="autonote" id="auto_chart"></div>
+        <div class="row-flex">
+          <button id="placeChart" class="primary">Place chart (4 clicks)</button>
+          <button id="resetNudges" title="Undo individual patch adjustments">Reset patch nudges</button>
+        </div>
+        <label class="row-flex" style="margin-top:6px"><input type="checkbox" id="noChart"> No color chart in this image</label>
+        <div class="muted" style="font-size:12px;margin-top:4px">Click the centers of the four corner patches. Drag any patch to fine-tune. Click a swatch below to flag a stained or damaged patch. Large square = measured color, small corner = reference color.</div>
+        <div class="swatches" id="swatches"></div>
+      </section>
+      <section>
+        <h3>Scale (ruler)</h3>
+        <div class="autonote" id="auto_ruler"></div>
+        <div class="row-flex">
+          <button id="placeRuler" class="primary">Place ruler (2 clicks)</button>
+          <label>Distance <input id="rulerMM" type="number" min="0.1" step="0.1" style="width:70px"> mm</label>
+        </div>
+        <label class="row-flex" style="margin-top:6px"><input type="checkbox" id="noRuler"> No ruler in this image</label>
+        <div id="rulerInfo" class="muted" style="margin-top:4px"></div>
+      </section>
+      <section>
+        <h3>Fish box</h3>
+        <div class="autonote" id="auto_fish"></div>
+        <div class="row-flex">
+          <button id="placeFish" class="primary">Draw fish box (snout → tail)</button>
+        </div>
+        <div class="row-flex" style="margin-top:6px">
+          <button id="flipHT">Flip head / tail</button>
+          <button id="flipDV">Flip dorsal / ventral</button>
+        </div>
+        <div id="fishInfo" class="muted" style="margin-top:4px"></div>
+        <button id="toTab2" style="margin-top:8px">Continue to landmarks →</button>
+      </section>
+    </div>
+
+    <div id="side2" style="display:none">
+      <section>
+        <h3>Landmarks <span id="lmProgress" style="text-transform:none;letter-spacing:0"></span></h3>
+        <div class="row-flex">
+          <button id="reguess" title="Re-place every point you haven't moved yet, using the template">Re-guess unmoved points</button>
+          <button id="resetAll">Reset all</button>
+        </div>
+        <div class="muted" style="font-size:12px;margin:4px 0">Dashed ring = starting guess (not yet moved). Tick "absent" if a point can't be seen.</div>
+        <div class="lmlist" id="lmlist"></div>
+      </section>
+    </div>
+
+    <section id="actions">
+      <h3>Status</h3>
+      <div id="lockNote" class="warn" style="display:none;margin-bottom:6px">Approved and locked. Reopen to edit.</div>
+      <div class="kv" id="statusKV"></div>
+      <div class="row-flex" style="margin-top:8px">
+        <button id="saveBtn">Save</button>
+        <button id="submitBtn" class="primary" title="Mark as annotated and ready for review">Mark annotated</button>
+        <button id="approveBtn" class="good">Approve</button>
+        <button id="reopenBtn" style="display:none">Reopen for editing</button>
+      </div>
+    </section>
+    <section>
+      <h3>Notes</h3>
+      <textarea id="notes" placeholder="Anything unusual about this image or fish…"></textarea>
+    </section>
+    <section>
+      <h3>Metadata</h3>
+      <div class="kv" id="metaKV"></div>
+      <div id="siblings" style="margin-top:6px"></div>
+    </section>
+    <section>
+      <h3>History</h3>
+      <div class="hist" id="history"></div>
+    </section>
+  </div>
+</div>
+
+<script src="/static/common.js"></script>
+<script src="/static/viewer.js"></script>
+<script src="/static/annotate.js"></script>
+</body>
+</html>

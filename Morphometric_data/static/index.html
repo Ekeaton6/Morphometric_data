@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Cichlid Annotator</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="top">
+  <h1>Cichlid Morphometric Annotator</h1>
+  <span class="spacer"></span>
+  <label>Initials <input id="user" type="text" maxlength="6" placeholder="ABC"></label>
+</header>
+
+<div class="wrap">
+  <div class="summary" id="summary"></div>
+
+  <div class="toolbar">
+    <input id="search" type="text" placeholder="Search file name or PIT ID…" style="width:260px">
+    <select id="statusFilter">
+      <option value="">All statuses</option>
+      <option value="not_started">Not started</option>
+      <option value="in_progress">In progress</option>
+      <option value="annotated">Annotated (awaiting approval)</option>
+      <option value="approved">Approved</option>
+    </select>
+    <button id="expandAll">Expand all</button>
+    <button id="collapseAll">Collapse all</button>
+    <span class="spacer" style="flex:1"></span>
+    <div class="card row-flex" style="padding:6px 10px">
+      <b>Export</b>
+      <select id="exportScope">
+        <option value="annotated">Annotated + approved</option>
+        <option value="approved">Approved only</option>
+        <option value="all">Everything saved</option>
+      </select>
+      <button data-exp="wide.csv">Wide CSV</button>
+      <button data-exp="landmarks_long.csv">Landmarks CSV</button>
+      <button data-exp="colors_long.csv">Colors CSV</button>
+      <button data-exp="landmarks.tps">TPS</button>
+      <button data-exp="sliders.csv" title="Semilandmark definition for geomorph::gpagen(curves = ...)">Sliders (geomorph)</button>
+    </div>
+  </div>
+  <div id="groups"></div>
+  <div class="card muted" style="margin-top:18px">
+    <b>Starting-guess template:</b> <span id="tplInfo">…</span>
+    <button id="recompute" style="margin-left:10px">Recompute from annotated images</button>
+  </div>
+</div>
+
+<script src="/static/common.js"></script>
+<script src="/static/landing.js"></script>
+</body>
+</html>

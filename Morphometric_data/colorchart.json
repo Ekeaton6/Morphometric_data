@@ -1,0 +1,32 @@
+{
+  "_comment": "24-patch chart layout (6 columns x 4 rows, patch 1 top-left, grayscale row at bottom with white = 19, black = 24). Reference sRGB values are the standard ColorChecker Classic targets; verify against the Pixel Perfect chart's spec sheet before using them for color correction.",
+  "name": "Pixel Perfect 24 Standard Color Calibration Chart",
+  "cols": 6,
+  "rows": 4,
+  "patches": [
+    {"n": 1,  "name": "Dark skin",     "ref_srgb": [115, 82, 68]},
+    {"n": 2,  "name": "Light skin",    "ref_srgb": [194, 150, 130]},
+    {"n": 3,  "name": "Blue sky",      "ref_srgb": [98, 122, 157]},
+    {"n": 4,  "name": "Foliage",       "ref_srgb": [87, 108, 67]},
+    {"n": 5,  "name": "Blue flower",   "ref_srgb": [133, 128, 177]},
+    {"n": 6,  "name": "Bluish green",  "ref_srgb": [103, 189, 170]},
+    {"n": 7,  "name": "Orange",        "ref_srgb": [214, 126, 44]},
+    {"n": 8,  "name": "Purplish blue", "ref_srgb": [80, 91, 166]},
+    {"n": 9,  "name": "Moderate red",  "ref_srgb": [193, 90, 99]},
+    {"n": 10, "name": "Purple",        "ref_srgb": [94, 60, 108]},
+    {"n": 11, "name": "Yellow green",  "ref_srgb": [157, 188, 64]},
+    {"n": 12, "name": "Orange yellow", "ref_srgb": [224, 163, 46]},
+    {"n": 13, "name": "Blue",          "ref_srgb": [56, 61, 150]},
+    {"n": 14, "name": "Green",         "ref_srgb": [70, 148, 73]},
+    {"n": 15, "name": "Red",           "ref_srgb": [175, 54, 60]},
+    {"n": 16, "name": "Yellow",        "ref_srgb": [231, 199, 31]},
+    {"n": 17, "name": "Magenta",       "ref_srgb": [187, 86, 149]},
+    {"n": 18, "name": "Cyan",          "ref_srgb": [8, 133, 161]},
+    {"n": 19, "name": "White",         "ref_srgb": [243, 243, 242]},
+    {"n": 20, "name": "Neutral 8",     "ref_srgb": [200, 200, 200]},
+    {"n": 21, "name": "Neutral 6.5",   "ref_srgb": [160, 160, 160]},
+    {"n": 22, "name": "Neutral 5",     "ref_srgb": [122, 122, 121]},
+    {"n": 23, "name": "Neutral 3.5",   "ref_srgb": [85, 85, 85]},
+    {"n": 24, "name": "Black",         "ref_srgb": [52, 52, 52]}
+  ]
+}

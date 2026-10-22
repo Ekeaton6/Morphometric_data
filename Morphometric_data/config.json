@@ -1,0 +1,21 @@
+{
+  "_comment": "Relative paths are relative to this folder, so this works on any machine where the image folder and spreadsheet sit next to fish_annotator (e.g. ~/Desktop on the Mac, /home/student/Desktop on the Linux PC). Use absolute paths if they live elsewhere.",
+  "image_dir": "../Digital_Phenotype",
+  "metadata_file": "../Digital_Phenotype_Info.xlsx",
+  "metadata_sheet": null,
+  "id_column": "File Name",
+  "group_column": "Species",
+  "fish_id_column": "PIT ID",
+  "list_columns": [
+    "PIT ID",
+    "Sex",
+    "Photo Date"
+  ],
+  "group_order": null,
+  "landmarks_file": "landmarks.json",
+  "colorchart_file": "colorchart.json",
+  "data_dir": "data",
+  "host": "127.0.0.1",
+  "port": 8024,
+  "_comment_port": "Port can also be set with: bash start.sh --port 9000  (or FA_PORT=9000). host 127.0.0.1 = only reachable through an SSH tunnel (recommended)."
+}
